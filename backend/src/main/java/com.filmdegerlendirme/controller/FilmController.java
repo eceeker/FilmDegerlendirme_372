@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import com.filmdegerlendirme.repository.FilmRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import com.filmdegerlendirme.service.PersonelService;
+
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/films")
 public class FilmController {
+
+    @Autowired
+private PersonelService personelService;
 
     @Autowired
     private FilmService filmService;
@@ -39,5 +44,10 @@ public List<Film> searchFilms(@RequestParam String query) {
         new Object[]{"%" + query.toLowerCase() + "%"},
         new FilmRowMapper()
     );
+}
+
+@GetMapping("/{filmId}/cast")
+public List<PersonelService.PersonelWithPozisyon> getCast(@PathVariable String filmId) {
+    return personelService.getCastWithPositions(filmId);
 }
 };

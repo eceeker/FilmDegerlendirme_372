@@ -157,7 +157,25 @@ const handleAddComment = async () => {
       <p><strong>Ortalama Puan:</strong> {film.ortalama_puan || 'Bilgi yok'}</p>
       <p><strong>Özet:</strong> {film.ozet || 'Bilgi yok'}</p>
       <p><strong>Türler:</strong> {turlar.length ? turlar.map(t => t.tur_adi).join(', ') : 'Bilgi yok'}</p>
-      <p><strong>Oyuncular:</strong> {cast.length ? cast.join(', ') : 'Bilgi yok'}</p>
+      <p><strong>Oyuncular:</strong></p>
+<div>
+  {cast.length ? (
+    Object.entries(
+      cast.reduce((acc, c) => {
+        if (!acc[c.pozisyon]) acc[c.pozisyon] = [];
+        acc[c.pozisyon].push(c.adiSoyadi);
+        return acc;
+      }, {})
+    ).map(([pozisyon, isimler]) => (
+      <p key={pozisyon}>
+        <strong>{pozisyon}:</strong> {isimler.join(', ')}
+      </p>
+    ))
+  ) : (
+    <p>Bilgi yok</p>
+  )}
+</div>
+
       <p><strong>Ödüller:</strong> {oduller.length ? oduller.map(o => o.odul_adi).join(', ') : 'Bilgi yok'}</p>
 
       {/* Liste yönetimi */}

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 
@@ -17,6 +18,13 @@ import java.util.List;
 @Service
 public class FilmService {
 
+    private final JdbcTemplate jdbcTemplate;
+    private final PersonelService personelService;
+    @Autowired
+    public FilmService(JdbcTemplate jdbcTemplate, PersonelService personelService) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.personelService = personelService;
+    }
     @Autowired
     private FilmRepository filmRepository;
 
@@ -25,23 +33,47 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
-     public Map<String, Object> getFilmDetail(String filmId) {
-        Optional<Film> filmOpt = filmRepository.findFilmById(filmId);
-Film film = filmOpt.orElseThrow(() -> new RuntimeException("Film bulunamadı"));
+      public Map<String, Object> getFilmDetail(String filmId) {
+        // Film temel bilgileri
+        String sqlFilm = "SELECT * FROM Film WHERE film_id = ?";
+        Map<String, Object> film = jdbcTemplate.queryForMap(sqlFilm, filmId);
 
-        List<Map<String, Object>> turlar = filmRepository.findFilmGenres(filmId);
-        List<Map<String, Object>> oduller = filmRepository.findFilmAwards(filmId);
-        List<Map<String, Object>> yorumlar = filmRepository.findFilmComments(filmId);
-        List<String> cast = filmRepository.findFilmCast(filmId); 
+        if (film == null || film.isEmpty()) return null;
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("film", film);
-        response.put("turlar", turlar);
-        response.put("oduller", oduller);
-        response.put("yorumlar", yorumlar);
-        response.put("cast", cast);
+        // Türler
+        String sqlTurlar = """
+            SELECT t.tur_id, t.tur_adi
+            FROM Tur t
+            JOIN Film_Tur ft ON t.tur_id = ft.tur_id
+            WHERE ft.film_id = ?
+        """;
+        List<Map<String, Object>> turlar = jdbcTemplate.queryForList(sqlTurlar, filmId);
 
-        return response;
+        // Ödüller
+        String sqlOduller = """
+            SELECT o.odul_adi
+            FROM Odul o
+            JOIN Film_Odul fo ON o.odul_id = fo.odul_id
+            WHERE fo.film_id = ?
+        """;
+        List<Map<String, Object>> oduller = jdbcTemplate.queryForList(sqlOduller, filmId);
+
+        // Yorumlar
+        String sqlYorumlar = "SELECT * FROM Yorum WHERE film_id = ?";
+        List<Map<String, Object>> yorumlar = jdbcTemplate.queryForList(sqlYorumlar, filmId);
+
+        // Cast + pozisyon
+        List<PersonelService.PersonelWithPozisyon> cast = personelService.getCastWithPositions(filmId);
+
+        // Sonuç map
+        Map<String, Object> result = new HashMap<>();
+        result.put("film", film);
+        result.put("turlar", turlar);
+        result.put("oduller", oduller);
+        result.put("yorumlar", yorumlar);
+        result.put("cast", cast);
+
+        return result;
     }
     
     // İş kuralı: Yeni film kaydı yapmadan önce bazı kontrolleri yap
