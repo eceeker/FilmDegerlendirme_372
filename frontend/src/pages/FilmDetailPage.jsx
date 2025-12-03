@@ -116,22 +116,29 @@ setUserLists(updatedLists);
   };
 
   // Yorum ekleme
-  const handleAddComment = async () => {
-    if (!commentText.trim()) return;
-    try {
-      const res = await axios.post(
-        `http://localhost:8080/api/yorum/${id}/comments`,
-        { yorum_metni: commentText, derece: rating },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setYorumlar([...yorumlar, res.data]);
-      setCommentText('');
-      setRating(5);
-    } catch (err) {
-      console.error(err);
-      alert('Yorum gönderilemedi!');
-    }
-  };
+const handleAddComment = async () => {
+  if (!commentText.trim()) return; // boş yorum gönderilmesin
+
+  try {
+    // Kullanıcı adı ile birlikte yorum gönderiyoruz
+    const res = await axios.post(
+      `http://localhost:8080/api/yorum/${id}/comments`,
+      {
+        yorum_metni: commentText,
+        derece: rating,
+        kullanici_adi: kullaniciAdi // localStorage'dan veya state'den alınmış olmalı
+      }
+    );
+
+    // Yorumlar state'ini güncelle
+    setYorumlar([...yorumlar, res.data]);
+    setCommentText('');
+    setRating(5);
+  } catch (err) {
+    console.error(err);
+    alert('Yorum gönderilemedi!');
+  }
+};
 
   if (loading) return <p>Yükleniyor...</p>;
   if (!film) return <p>Film bulunamadı</p>;
@@ -202,7 +209,8 @@ setUserLists(updatedLists);
       {yorumlar.length ? (
         yorumlar.map(y => (
           <div key={y.yorum_id} className="film-comment-card">
-            <p><strong>{y.kullanici_adi} ({y.email})</strong> - {y.derece}/10</p>
+            <p><strong>{y.kullanici_adi}</strong> - {y.derece}/10</p>
+
             <p>{y.yorum_metni}</p>
             <p><small>{y.yorum_tarihi}</small></p>
           </div>
