@@ -1,0 +1,153 @@
+/* ---------------------------
+   FilmDetailPage Poster & Container
+---------------------------- */
+.film-detail-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.film-detail-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+/* FilmDetailPage poster */
+.film-detail-container .film-poster-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.film-detail-container .film-poster {
+  width: 300px;   /* Sabit genişlik, orantılı yükseklik */
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Film detayları */
+.film-detail-container p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.film-detail-container strong {
+  color: #000;
+}
+
+/* Liste ve yorum bölümleri */
+.film-detail-container .film-list-section,
+.film-detail-container .film-comment-section {
+  margin: 30px 0;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.film-detail-container .film-list-section h3,
+.film-detail-container .film-comment-section h3 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* Select, input, textarea ve button */
+.film-detail-container select,
+.film-detail-container input,
+.film-detail-container textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.film-detail-container button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  background-color: #f5c518; /* IMDB sarısı */
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.film-detail-container button:hover {
+  background-color: #e0b508;
+}
+
+/* Yeni liste input ve button */
+.film-detail-container .new-list-container {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+/* Yorum kartları */
+.film-detail-container .film-comment-card {
+  border: 1px solid #ffffff12;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background-color: #ffffff12;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.film-detail-container .film-comment-card p {
+  margin: 4px 0;
+}
+
+/* ---------------------------
+   HomePage Poster
+---------------------------- */
+.homepage-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Her film kartı */
+.homepage-film-card {
+  width: 180px;          /* Sabit genişlik */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage-film-card img {
+  width: 100%;
+  height: auto;          /* Orantıyı korur */
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.homepage-film-card h4 {
+  margin: 8px 0 0 0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .film-detail-container .film-poster {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .homepage-film-card {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .homepage-film-card {
+    width: 100%;
+  }
+}

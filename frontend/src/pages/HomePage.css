@@ -1,0 +1,67 @@
+/* HomePage.css */
+
+.home-page {
+  background-color: #141414;
+  color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.home-page h2 {
+  color: #f5c518;
+  margin: 20px 0 10px;
+  font-size: 1.6rem;
+}
+
+.film-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 10px;
+}
+
+/* ---- BURADA AFİŞLERİ BÜYÜTTÜK ---- */
+.film-card {
+  min-width: 180px;
+  max-width: 180px;
+  cursor: pointer;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.film-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+}
+
+/* ---- Afiş boyutu büyüdü ---- */
+.film-poster {
+  width: 100%;
+  height: 270px;       /* ← 240px'den 270px'e */
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+}
+
+.film-title {
+  text-align: center;
+  padding: 8px 5px;
+  font-size: 1rem;
+  color: #fff;
+  height: 48px;
+  overflow: hidden;
+}
+
+.film-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.film-row::-webkit-scrollbar-thumb {
+  background-color: #f5c518;
+  border-radius: 4px;
+}
+
+.film-row::-webkit-scrollbar-track {
+  background-color: #141414;
+}
