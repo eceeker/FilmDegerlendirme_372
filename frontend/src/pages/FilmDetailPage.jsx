@@ -17,6 +17,8 @@ const FilmDetailPage = () => {
   const [oduller, setOduller] = useState([]);
   const [yorumlar, setYorumlar] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cast, setCast] = useState([]);
+
 
   const [commentText, setCommentText] = useState('');
   const [rating, setRating] = useState(5);
@@ -36,6 +38,7 @@ const FilmDetailPage = () => {
         setTurlar(res.turlar || []);
         setOduller(res.oduller || []);
         setYorumlar(res.yorumlar || []);
+        setCast(res.cast || []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -147,7 +150,7 @@ setUserLists(updatedLists);
       <p><strong>Ortalama Puan:</strong> {film.ortalama_puan || 'Bilgi yok'}</p>
       <p><strong>Özet:</strong> {film.ozet || 'Bilgi yok'}</p>
       <p><strong>Türler:</strong> {turlar.length ? turlar.map(t => t.tur_adi).join(', ') : 'Bilgi yok'}</p>
-      <p><strong>Oyuncular:</strong> {film.cast?.length ? film.cast.join(', ') : 'Bilgi yok'}</p>
+      <p><strong>Oyuncular:</strong> {cast.length ? cast.join(', ') : 'Bilgi yok'}</p>
       <p><strong>Ödüller:</strong> {oduller.length ? oduller.map(o => o.odul_adi).join(', ') : 'Bilgi yok'}</p>
 
       {/* Liste yönetimi */}

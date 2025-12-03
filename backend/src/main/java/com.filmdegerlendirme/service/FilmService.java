@@ -32,12 +32,14 @@ Film film = filmOpt.orElseThrow(() -> new RuntimeException("Film bulunamadı"));
         List<Map<String, Object>> turlar = filmRepository.findFilmGenres(filmId);
         List<Map<String, Object>> oduller = filmRepository.findFilmAwards(filmId);
         List<Map<String, Object>> yorumlar = filmRepository.findFilmComments(filmId);
+        List<String> cast = filmRepository.findFilmCast(filmId); 
 
         Map<String, Object> response = new HashMap<>();
         response.put("film", film);
         response.put("turlar", turlar);
         response.put("oduller", oduller);
         response.put("yorumlar", yorumlar);
+        response.put("cast", cast);
 
         return response;
     }

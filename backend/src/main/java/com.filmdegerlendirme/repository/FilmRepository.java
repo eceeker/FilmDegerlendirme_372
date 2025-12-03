@@ -86,4 +86,14 @@ public class FilmRepository {
         String sql = "SELECT * FROM Film WHERE LOWER(baslik) LIKE ?";
         return jdbcTemplate.query(sql, filmRowMapper, "%" + query.toLowerCase() + "%");
     }
+
+     public List<String> findFilmCast(String filmId) {
+    String sql = "SELECT p.isim, p.soyisim " +
+                 "FROM Personel p " +
+                 "JOIN Film_Oyuncu fo ON p.personel_id = fo.personel_id " +
+                 "WHERE fo.film_id = ?";
+    
+    return jdbcTemplate.query(sql, new Object[]{filmId}, 
+        (rs, rowNum) -> rs.getString("isim") + " " + rs.getString("soyisim"));
+}
 }
